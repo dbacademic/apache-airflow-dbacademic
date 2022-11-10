@@ -10,6 +10,8 @@ from airflow.utils.dates import days_ago
 # These args will get passed on to each operator
 # You can override them on a per-task basis during operator initialization
 
+from utils.source_config import sources
+
 def dados_ckan (url):
     data = requests.get(url+"&limit=5").json()
     print (len (data["result"]["records"] ))
@@ -38,13 +40,8 @@ UFRN="http://dbpedia.org/resource/Federal_University_of_Rio_Grande_do_Norte"
 
 
      
-mapper = {
-                    "nome" : "nome_discente",
-                    "id": lambda d: hashcode ("ufrn", "discente", d["matricula"]),
-                    "code" : "matricula",
-                    "university" : lambda d: UFRN,
-                    "curso": lambda d: "https://www.dbacademic.tech/resource/" +  hashcode ( "ufrn", "curso", str (d["id_curso"]))
-}
+mapper = sources[0]["mapper"]
+url = sources[0]["url"]
 
 default_args = {
     'owner': 'airflow',
@@ -63,7 +60,7 @@ def tutorial_taskflow_exemplo():
     """
     @task()
     def extract():
-        return dados_ckan("http://dados.ufrn.br/api/action/datastore_search?resource_id=a55aef81-e094-4267-8643-f283524e3dd7")
+        return dados_ckan(url)
         
     @task(multiple_outputs=False)
     def transform(order_data_dict: [dict]):
@@ -87,8 +84,3 @@ def tutorial_taskflow_exemplo():
 tutorial_etl_dag_2 = tutorial_taskflow_exemplo()
 
 
-if __name__ == "__main__":
-    from airflow.utils.state import State
-
-    dag.clear()
-    dag.run()
