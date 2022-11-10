@@ -7,6 +7,8 @@ from airflow.operators.python import PythonOperator
 from airflow.models.baseoperator import chain
 
 
+
+
 def save_posts(ti) -> None:
     posts = ti.xcom_pull(task_ids=['get_posts'])
     #print (posts)
