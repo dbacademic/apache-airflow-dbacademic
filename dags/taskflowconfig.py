@@ -64,9 +64,8 @@ def tutorial_taskflow_exemplo():
         
     @task(multiple_outputs=False)
     def transform(order_data_dict: [dict]):
-
-
         return mapper_all(mapper, order_data_dict)
+
 
 
     @task()

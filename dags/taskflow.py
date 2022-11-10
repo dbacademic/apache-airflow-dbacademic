@@ -50,6 +50,7 @@ default_args = {
     'owner': 'airflow',
 }
 
+#The @task decorator is recommended over the classic PythonOperator to execute Python callables.
 
 @dag(default_args=default_args, schedule_interval=None, start_date=days_ago(2), tags=['exemplo'])
 def tutorial_taskflow_exemplo():
