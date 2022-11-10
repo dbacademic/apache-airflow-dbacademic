@@ -53,7 +53,7 @@ default_args = {
 #The @task decorator is recommended over the classic PythonOperator to execute Python callables.
 
 @dag(default_args=default_args, schedule_interval=None, start_date=days_ago(2), tags=['exemplo'])
-def tutorial_taskflow_exemplo():
+def tutorial_taskflow_exemplo2():
     """
     ### TaskFlow API Tutorial Documentation
     This is a simple ETL data pipeline example which demonstrates the use of
@@ -85,7 +85,7 @@ def tutorial_taskflow_exemplo():
     order_data = extract()
     order_summary = transform(order_data)
     load(order_summary)
-tutorial_etl_dag_2 = tutorial_taskflow_exemplo()
+tutorial_etl_dag_2 = tutorial_taskflow_exemplo2()
 
 
 if __name__ == "__main__":
