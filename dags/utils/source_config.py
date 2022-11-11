@@ -44,57 +44,67 @@ IFPI="http://pt.dbpedia.org/resource/Instituto_Federal_do_Piauí"
 UFOB="http://pt.dbpedia.org/resource/Universidade_Federal_do_Oeste_da_Bahia"
 
 
-mapper_params = {
-
-"discente_ufrn" :{
-                    "nome" : "nome_discente",
-                    "id": lambda d: hashcode ("ufrn", "discente", d["matricula"]),
-                    "code" : "matricula",
-                    "university" : lambda d: UFRN,
-                    "curso": lambda d: "https://www.dbacademic.tech/resource/" +  hashcode ( "ufrn", "curso", str (d["id_curso"]))
-     },
-
- "discente_ifpa" :   {
-                    "nome" : "Nome", 
-                    "id": lambda d: hashcode ("ifpa", "discente", d["Matricula"]),
-                    "university" : lambda d: IFPA,
-                    "code" : "Matricula",
-                    #"curso": lambda d: "https://www.dbacademic.tech/resource/" + hashcode ( "ufma", "curso", str (d["codigo_curso"]))
-            },
-
-  "discente_ufma" : {
-                    "nome" : "nome", 
-                    "id": lambda d: hashcode ("ufma", "discente", d["matricula"]),
-                    "code" : "matricula",
-                    "university" : lambda d: UFMA,
-                    "curso": lambda d: "https://www.dbacademic.tech/resource/" + hashcode ( "ufma", "curso", str (d["codigo_curso"]))
-            },
-
-
-    ## cursos
-
-    "curso_ufms" : {
-                    "nome" : "curso", 
-                    "code" : "id",
-                    "id": lambda d: hashcode ( "ufms",  "curso", str (d["id"])),
-                    "university" : lambda d: UFMS,
-                    
-            } 
-
-}
-
 model_params = {
   "discente" : Discente,
   "curso" : Curso,
 }
 
 source_params = {
-  "discente_ufrn" : "http://dados.ufrn.br/api/action/datastore_search?resource_id=a55aef81-e094-4267-8643-f283524e3dd7",
-  "discente_ifpa" : "https://pda.ifpa.edu.br/api/action/datastore_search?resource_id=d422ed80-e077-492f-82dd-5827390b261f",
-  "discente_ufma" : "https://dados-ufma.herokuapp.com/api/v01/discente/",
 
-  #cursos
-  "curso_ufms" : "https://dadosabertos.ufms.br/api/action/datastore_search?resource_id=e239fd31-fe43-45e1-9d84-ba60a8d7fae7",
+  #discentes
+  "discente_ufrn" :  {
+
+    "url" : "http://dados.ufrn.br/api/action/datastore_search?resource_id=a55aef81-e094-4267-8643-f283524e3dd7",
+    "mapper" : {
+                    "nome" : "nome_discente",
+                    "id": lambda d: hashcode ("ufrn", "discente", d["matricula"]),
+                    "code" : "matricula",
+                    "university" : lambda d: UFRN,
+                    "curso": lambda d: "https://www.dbacademic.tech/resource/" +  hashcode ( "ufrn", "curso", str (d["id_curso"]))
+       }
+    },
+
+
+  "discente_ufma" :  {
+
+    "url" : "https://dados-ufma.herokuapp.com/api/v01/discente/",
+    "mapper" : {
+                    "nome" : "nome", 
+                    "id": lambda d: hashcode ("ufma", "discente", d["matricula"]),
+                    "code" : "matricula",
+                    "university" : lambda d: UFMA,
+                    "curso": lambda d: "https://www.dbacademic.tech/resource/" + hashcode ( "ufma", "curso", str (d["codigo_curso"]))
+      },
+    },
+
+
+  "discente_ifpa" :  {
+
+    "url" : "https://pda.ifpa.edu.br/api/action/datastore_search?resource_id=d422ed80-e077-492f-82dd-5827390b261f",
+    "mapper" : {
+                    "nome" : "Nome", 
+                    "id": lambda d: hashcode ("ifpa", "discente", d["Matricula"]),
+                    "university" : lambda d: IFPA,
+                    "code" : "Matricula",
+                    #"curso": lambda d: "https://www.dbacademic.tech/resource/" + hashcode ( "ufma", "curso", str (d["codigo_curso"]))
+       },
+    },
+
+
+  # cursos
+  "curso_ufms" :  {
+
+    "url" : "https://dadosabertos.ufms.br/api/action/datastore_search?resource_id=e239fd31-fe43-45e1-9d84-ba60a8d7fae7",
+    "mapper" : {
+                    "nome" : "curso", 
+                    "code" : "id",
+                    "id": lambda d: hashcode ( "ufms",  "curso", str (d["id"])),
+                    "university" : lambda d: UFMS,
+                    
+          } ,
+    },
+  
+
 }
 
 request_params = {

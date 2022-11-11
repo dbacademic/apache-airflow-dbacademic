@@ -10,7 +10,7 @@ from airflow.utils.dates import days_ago
 # These args will get passed on to each operator
 # You can override them on a per-task basis during operator initialization
 
-from utils.source_config import mapper_params, model_params, request_params, source_params
+from utils.source_config import model_params, request_params, source_params
 
 from simpot import mapper_all
 
@@ -27,8 +27,7 @@ default_args = {
 default_params = {
     "source" : "discente_ufrn",
     "model" : "discente",
-    "request" : "ckan",
-    "mapper" : "discente_ufrn"
+    "request" : "ckan"
 }
 
 @dag(params=default_params, default_args=default_args, schedule_interval=None, start_date=days_ago(2), tags=['exemplo'])
@@ -36,16 +35,16 @@ def exemplo_dbacademic_pipeline():
 
     @task()
     def extract():
-        url_key = get_current_context()["params"]["source"]
-        url = source_params[url_key]
+        source_key = get_current_context()["params"]["source"]
+        url = source_params[source_key]["url"]
         request_key = get_current_context()["params"]["request"]
         request_function = request_params[request_key]
-        return request_function(url)
+        return request_function(url) # retornas apenas os dados, lista de json
         
     @task(multiple_outputs=False)
     def transform_json(data: [dict]):
-        mapper_key = get_current_context()["params"]["mapper"]
-        mapper = mapper_params[mapper_key]
+        source_key = get_current_context()["params"]["source"]
+        mapper = source_params[source_key]["mapper"]
         return list(mapper_all(mapper, data))
 
 
