@@ -6,7 +6,7 @@ from utils.models import Discente, Curso
 
 def dados_ckan (url):
     data = requests.get(url+"&limit=5", verify=False).json()
-    print (len (data["result"]["records"] ))
+   # print (len (data["result"]["records"] ))
     return data["result"]["records"]
 
 def dados_ufma (url):
