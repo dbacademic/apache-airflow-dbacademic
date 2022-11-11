@@ -48,3 +48,39 @@ class Discente ():
             self.curso = URIRef(dict["curso"])
         if "university" in dict:
             self.university = URIRef(dict["university"])
+
+
+class Curso ():
+
+    nome = FOAF.name
+
+    area = OPENUAI.hasKnowledgeArea
+
+    coordenador = AIISO.responsibilityOf
+
+    unidade = AIISO.responsibilityOf
+
+    university = AIISO.part_of
+
+    code= AIISO.code
+
+    @RdfsClass(AIISO.Programme, "https://www.dbacademic.tech/resource/")
+    @BNamespace('cin', OPENCIN)
+    @BNamespace('uai', OPENUAI)
+    @BNamespace('aiiso', AIISO)
+    @BNamespace('foaf', FOAF)
+    def __init__(self, dict):
+        self.nome = Literal(dict["nome"])
+        self.id = str(dict["id"])
+        self.code = str (dict["id"])
+
+        if "area" in dict:
+            self.area = Literal(dict["area"])
+        
+        if "coordenador" in dict:
+            self.coordenador = URIRef(dict["coordenador"])
+
+        if "unidade" in dict:
+            self.unidade = URIRef(dict["unidade"])
+            
+        self.university = URIRef(dict["university"])
